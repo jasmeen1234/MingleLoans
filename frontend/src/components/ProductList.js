@@ -59,7 +59,7 @@ const ProductList = ({ onEditProduct }) => {
         Product List
       </Typography>
       <Paper elevation={3} sx={{ padding: 2 }}>
-        <Box sx={{ height: 500, width: '100%' }}>
+        <Box sx={{ height: 600, width: '100%' }}>
           <DataGrid
             rows={products}
             columns={columns}

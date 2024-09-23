@@ -111,7 +111,7 @@ const Dashboard = ({ user, setUser }) => { // Accept setUser prop to clear user 
         component="main"
         sx={{ flexGrow: 1, p: 3, backgroundColor: '#f4f6f8', minHeight: '100vh', pt: 8 }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="2lg" maxHeight="2lg">
           {view === 'report' && (
             <>
               <ReportPage onViewExistingProducts={handleViewExistingProducts} handleViewLatestProducts={handleViewLatestProducts} />

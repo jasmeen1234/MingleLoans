@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Container, Box, Typography, Snackbar, Alert } from '@mui/material';
+import { TextField, Button, Container, Box, Typography, Snackbar, Alert, Slide } from '@mui/material';
 import PropTypes from 'prop-types';
 
 const EditProduct = ({ productId, onClose, onProductUpdate }) => {
@@ -43,47 +43,40 @@ const EditProduct = ({ productId, onClose, onProductUpdate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Send the full product object without omitting the title
     const productToUpdate = { ...product };
+    const productId = productToUpdate.id;
+    delete productToUpdate.id;
 
-    console.log('Product to update:', productToUpdate);
-     const productId=productToUpdate.id;
-     delete productToUpdate.id;
     try {
       const response = await fetch(`https://dummyjson.com/products/${productId}`, {
-        
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(productToUpdate),
       });
-console.log("api response",response)
+
       if (!response.ok) {
         throw new Error('Failed to update product in API, updating in local storage');
       }
 
       const updatedProduct = await response.json();
-      console.log('Product updated in API:', updatedProduct);
-
       setSuccess(true);
-      onProductUpdate(updatedProduct); // Update the product in parent component
-      onClose(); // Close the edit form
+      onProductUpdate(updatedProduct);
+      onClose();
     } catch (err) {
       console.error('Error updating product in API:', err);
       const localProduct = JSON.parse(localStorage.getItem(`product-${productId}`));
       if (localProduct) {
         const updatedProduct = { ...localProduct, ...productToUpdate };
         localStorage.setItem(`product-${productId}`, JSON.stringify(updatedProduct));
-        console.log('Product updated in local storage:', updatedProduct);
 
         setSuccess(true);
-        onProductUpdate(updatedProduct); // Update the product in parent component
-        onClose(); // Close the edit form
+        onProductUpdate(updatedProduct);
+        onClose();
       } else {
         setError(true);
       }
     }
   };
-
 
   if (!product) return <div>Loading...</div>;
 
@@ -148,12 +141,28 @@ console.log("api response",response)
         </Button>
       </Box>
 
-      <Snackbar open={success} autoHideDuration={6000} onClose={() => setSuccess(false)}>
-        <Alert onClose={() => setSuccess(false)} severity="success">
-          Product updated successfully!
+      <Snackbar
+        open={success}
+        autoHideDuration={6000}
+        onClose={() => setSuccess(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        TransitionComponent={(props) => <Slide {...props} direction="left" />}
+      >
+        <Alert
+          onClose={() => setSuccess(false)}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
+          <Typography variant="h6">Product Updated Successfully!</Typography>
+          <Typography variant="body2">The product details have been successfully updated.</Typography>
         </Alert>
       </Snackbar>
-      <Snackbar open={error} autoHideDuration={6000} onClose={() => setError(false)}>
+
+      <Snackbar
+        open={error}
+        autoHideDuration={6000}
+        onClose={() => setError(false)}
+      >
         <Alert onClose={() => setError(false)} severity="error">
           Failed to update product.
         </Alert>
@@ -165,7 +174,7 @@ console.log("api response",response)
 EditProduct.propTypes = {
   productId: PropTypes.number.isRequired,
   onClose: PropTypes.func.isRequired,
-  onProductUpdate: PropTypes.func.isRequired, // Added new prop for product update
+  onProductUpdate: PropTypes.func.isRequired,
 };
 
 export default EditProduct;

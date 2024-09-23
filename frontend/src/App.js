@@ -7,6 +7,7 @@ import LatestProduct from './components/LatestProduct';
 import EditProduct from './components/EditProduct';
 import ProtectedRoute from './components/ProtectedRoute'; // Import the ProtectedRoute component
 import './App.css'
+import Home from './components/Home';
 let userInfo = {
   email: "",
   username: "",
@@ -23,7 +24,8 @@ const App = () => {
     <div className='appname'>
       <Router>
         <Routes>
-          <Route path='/' element={<Login setUser={setUser} />} />
+        <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login setUser={setUser} />} />
           <Route 
             path='/dashboard/*' 
             element={

@@ -34,16 +34,18 @@ const Login = ({ setUser }) => {
 
   return (
     <Box
-      sx={{
-        minHeight: '100vh',
-        backgroundImage: 'linear-gradient(45deg, #FF6F61, #6FA3EF, #6EBB5B)', // Colorful gradient background
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
+  sx={{
+    minHeight: '90vh',
+    minWidth: '100vw',
+    backgroundImage: 'url("/backgroundImage.png"), linear-gradient(45deg, #FF6F61, #6FA3EF, #6EBB5B)', // Combining image and gradient
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  }}
+>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -62,7 +64,7 @@ const Login = ({ setUser }) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Login
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -105,7 +107,7 @@ const Login = ({ setUser }) => {
                 },
               }}
             >
-              Sign In
+              Login
             </Button>
             <Grid container>
               <Grid item xs>

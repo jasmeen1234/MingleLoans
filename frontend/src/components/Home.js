@@ -1,20 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import './home.css'; // Assuming this file exists with the styling
+import Login from "./Login"; // Importing the Login component (if necessary)
+import Footer from "./Footer";
+import MainContent from "./MainContent";
+
+let userInfo = {
+  email: "",
+  username: "",
+  firstName: "",
+  profileImage: "",
+  token: "",
+  refreshToken: ""
+};
 
 const Home = () => {
+  const [user, setUser] = useState(userInfo);
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold mb-4">Welcome to My Sample UI</h1>
-      <div className="text-lg mb-8">
-        <p>Name: John Doe</p>
-        <p>Email: johndoe@example.com</p>
+    <div className="page-container">
+      {/* Header Section */}
+      <header className="header">
+        <div className="logo-container">
+          <a href="/">
+            <img
+              src="https://mingleloans.com/assets/mingleloan-xuMOeewO.svg"
+              alt="Logo"
+              className="logo"
+            />
+          </a>
+        </div>
+        <nav className="nav-links">
+          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/about" className="nav-link">About</Link>
+          <Link to="/login" className="nav-link">Login</Link>
+        </nav>
+      </header>
+
+      {/* Main Content */}
+      <div className="main-content">
+        <MainContent/>
       </div>
-      <Link
-        to="/login"
-        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
-      >
-        Login
-      </Link>
+      <div>
+        <Footer/>
+      </div>
     </div>
   );
 };
