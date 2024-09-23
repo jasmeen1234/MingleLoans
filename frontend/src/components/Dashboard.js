@@ -25,7 +25,7 @@ const Dashboard = ({ user, setUser }) => { // Accept setUser prop to clear user 
       const newProducts = prevProducts.map((product) =>
         product.id === updatedProduct.id ? updatedProduct : product
       );
-      console.log('Updated product list:', newProducts); // Log the new list
+      console.log('Updated product list:', ...newProducts); // Log the new list
       return newProducts; // Return the updated product list
     });
     setView('productList'); // After updating, go back to the product list

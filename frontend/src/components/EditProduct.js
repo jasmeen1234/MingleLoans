@@ -43,17 +43,20 @@ const EditProduct = ({ productId, onClose, onProductUpdate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { title, ...productWithoutTitle } = product;
+    // Send the full product object without omitting the title
+    const productToUpdate = { ...product };
 
-    console.log('Product to update (without title):', productWithoutTitle);
-
+    console.log('Product to update:', productToUpdate);
+     const productId=productToUpdate.id;
+     delete productToUpdate.id;
     try {
       const response = await fetch(`https://dummyjson.com/products/${productId}`, {
+        
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(productWithoutTitle),
+        body: JSON.stringify(productToUpdate),
       });
-
+console.log("api response",response)
       if (!response.ok) {
         throw new Error('Failed to update product in API, updating in local storage');
       }
@@ -62,24 +65,25 @@ const EditProduct = ({ productId, onClose, onProductUpdate }) => {
       console.log('Product updated in API:', updatedProduct);
 
       setSuccess(true);
-      onProductUpdate(updatedProduct);
-      onClose();
+      onProductUpdate(updatedProduct); // Update the product in parent component
+      onClose(); // Close the edit form
     } catch (err) {
       console.error('Error updating product in API:', err);
       const localProduct = JSON.parse(localStorage.getItem(`product-${productId}`));
       if (localProduct) {
-        const updatedProduct = { ...localProduct, ...productWithoutTitle };
+        const updatedProduct = { ...localProduct, ...productToUpdate };
         localStorage.setItem(`product-${productId}`, JSON.stringify(updatedProduct));
         console.log('Product updated in local storage:', updatedProduct);
 
         setSuccess(true);
-        onProductUpdate(updatedProduct);
-        onClose();
+        onProductUpdate(updatedProduct); // Update the product in parent component
+        onClose(); // Close the edit form
       } else {
         setError(true);
       }
     }
   };
+
 
   if (!product) return <div>Loading...</div>;
 
